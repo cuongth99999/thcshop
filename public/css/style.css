@@ -1,0 +1,82 @@
+body {
+    font-size: 14px;
+    font-family: Arial;
+    line-height: 23px;
+}
+
+#wrapper {
+    width: 960px;
+    margin: 0px auto;
+}
+
+#header {
+    text-align: center;
+    position: relative;
+}
+
+#footer {
+    background: #029ef3;
+}
+
+#logo {
+    font-size: 35px;
+    text-align: center;
+    display: inline-block;
+    padding: 20px 10px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #000000;
+}
+
+#user-login {
+    position: absolute;
+    right: 10px;
+    top: 1px;
+}
+
+#user-login a {
+    text-decoration: none;
+}
+
+ul#main-menu {
+    text-align: center;
+    background: #029ef3;
+
+}
+
+ul#main-menu li {
+    display: inline-block;
+}
+
+ul#main-menu li a {
+    padding: 8px 15px;
+    display: block;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+#content {
+    min-height: 650px;
+    padding: 20px 0px;
+}
+
+#footer {
+    color: #ffffff;
+    text-align: center;
+    padding: 8px 0px;
+}
+
+.post-title {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+ul.list_post li{
+    padding: 20px 0px;
+    border-bottom: 1px dashed #b5abab;
+}
+
+.error {
+    color: red;
+    font-style: italic;
+}

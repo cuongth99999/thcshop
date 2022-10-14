@@ -1,0 +1,46 @@
+body {
+    font-size: 14px;
+    font-family: Arial;
+    line-height: 23px;
+    background: #029ef3;
+}
+
+#wrapper-form-reset {
+    width: 265px;
+    background: #fdfdfd;
+    border-radius: 3px;
+    padding: 30px 20px 20px 20px;
+    margin: 150px auto;
+    text-align: center;
+}
+
+#form-reset #email, #form-reset #password, #form-reset #confirm_password {
+    display: block;
+    padding: 10px 10px;
+    width: 100%;
+    margin-bottom: 15px;
+    background: #f7f7f7;
+    border: none;
+}
+
+#form-reset #btn-reset, #form-reset #btn-new-pass {
+    display: block;
+    width: 100%;
+    background: #029ef3;
+    color: #ffffff;
+    border: none;
+    padding: 10px 0px;
+    margin: 15px 0px 10px;
+    cursor: pointer;
+}
+
+#lost-pass {
+    color: #67a0b7;
+    text-decoration: none;
+}
+
+p.error {
+    color: red;
+    text-align: left;
+    font-style: italic;
+}
