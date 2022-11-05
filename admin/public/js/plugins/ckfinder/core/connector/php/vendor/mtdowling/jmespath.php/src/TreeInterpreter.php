@@ -58,7 +58,7 @@ class TreeInterpreter
                     $this->dispatch($node['children'][0], $value)
                 );
 
-            case 'index':
+            case 'home':
                 if (!Utils::isArray($value)) {
                     return null;
                 }

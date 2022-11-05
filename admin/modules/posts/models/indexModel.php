@@ -10,35 +10,42 @@ function get_user_login_by_username($username) {
     return $user;
 }
 
-function add_page ($data) {
-    return db_insert('tbl_pages', $data);
+function add_post ($data) {
+    return db_insert('tbl_posts', $data);
 }
 
-function get_list_pages () {
-    $result = db_fetch_array("SELECT `tbl_pages`.*, `tbl_users`.fullname FROM `tbl_pages` INNER JOIN `tbl_users` ON
-                        `tbl_pages`.page_user_id = `tbl_users`.user_id");
+function get_list_posts () {
+    $result = db_fetch_array("SELECT `tbl_posts`.*, `tbl_users`.fullname, `tbl_post_categories`.post_cat_name FROM `tbl_posts` INNER JOIN `tbl_users` ON
+                        `tbl_posts`.user_id = `tbl_users`.user_id INNER JOIN  `tbl_post_categories` ON `tbl_posts`.post_cat_id = `tbl_post_categories`.post_cat_id");
     return $result;
 }
 
-function get_page_by_id ($id) {
-    $item = db_fetch_row("SELECT * FROM `tbl_pages` WHERE `page_id` = {$id}");
+function get_post_by_id ($id) {
+    $item = db_fetch_row("SELECT * FROM `tbl_posts` WHERE `post_id` = {$id}");
     return $item;
 }
 
-function get_pages($start = 1, $num_per_page = 5, $filter = "") {
+function get_posts($start = 1, $num_per_page = 5, $filter = "") {
 
-    $list_pages = db_fetch_array("SELECT `tbl_pages`.*, `tbl_users`.fullname FROM `tbl_pages` INNER JOIN `tbl_users` ON
-                        `tbl_pages`.page_user_id = `tbl_users`.user_id {$filter} LIMIT {$start}, {$num_per_page}");
+    $list_pages = db_fetch_array("SELECT `tbl_posts`.*, `tbl_users`.fullname, `tbl_post_categories`.post_cat_name FROM `tbl_posts` INNER JOIN `tbl_users` ON
+                        `tbl_posts`.user_id = `tbl_users`.user_id INNER JOIN  `tbl_post_categories` ON `tbl_posts`.post_cat_id = `tbl_post_categories`.post_cat_id
+                         {$filter} LIMIT {$start}, {$num_per_page}");
 
     return $list_pages;
 }
 
-function update_page ($page_id, $data) {
-    db_update('tbl_pages', $data, "`page_id` = '{$page_id}'");
+function update_post ($post_id, $data) {
+    db_update('tbl_posts', $data, "`post_id` = '{$post_id}'");
 }
 
-function delete_page_by_id($page_id) {
-    db_delete('tbl_pages', "`page_id` = '{$page_id}'");
+function delete_post_by_id($post_id) {
+    db_delete('tbl_posts', "`post_id` = '{$post_id}'");
+}
+
+function get_info_cat_post () {
+    $result = db_fetch_array("SELECT `tbl_post_categories`.*, `tbl_users`.fullname FROM `tbl_post_categories` INNER JOIN `tbl_users` ON
+                        `tbl_post_categories`.user_id = `tbl_users`.user_id");
+    return $result;
 }
 
 function get_pagging($num_page, $page, $base_url = "") {

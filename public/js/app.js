@@ -6,7 +6,7 @@ $(document).ready(function () {
         var data = {id: id, qty: qty};
 
        $.ajax({
-           url: '?mod=cart&act=update_ajax',
+           url: "?mod=cart&action=update_ajax",
            method: 'POST',
            data: data,
            dataType: 'json',
@@ -18,8 +18,8 @@ $(document).ready(function () {
                // console.log(data);
            },
            error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
+               console.log(xhr.status);
+               console.log(thrownError);
            },
        });
     });

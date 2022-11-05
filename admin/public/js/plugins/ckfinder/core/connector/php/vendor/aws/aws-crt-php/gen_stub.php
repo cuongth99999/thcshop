@@ -1691,7 +1691,7 @@ function replaceMethodSynopses(string $targetDirectory, array $funcMap, array $a
                     $paramTypes[] = $type->textContent;
                 }
 
-                $params[$paramName] = ["index" => $i, "type" => $paramTypes];
+                $params[$paramName] = ["home" => $i, "type" => $paramTypes];
             }
 
             // Check if there is any change - short circuit if there is not any.
@@ -1726,7 +1726,7 @@ function replaceMethodSynopses(string $targetDirectory, array $funcMap, array $a
                     continue;
                 }
 
-                $index = $params[$name]["index"];
+                $index = $params[$name]["home"];
                 if (!isset($funcInfo->args[$index])) {
                     continue;
                 }

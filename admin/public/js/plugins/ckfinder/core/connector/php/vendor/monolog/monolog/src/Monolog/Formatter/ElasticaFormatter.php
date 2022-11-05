@@ -21,7 +21,7 @@ use Elastica\Document;
 class ElasticaFormatter extends NormalizerFormatter
 {
     /**
-     * @var string Elastic search index name
+     * @var string Elastic search home name
      */
     protected $index;
 
@@ -31,7 +31,7 @@ class ElasticaFormatter extends NormalizerFormatter
     protected $type;
 
     /**
-     * @param string $index Elastic Search index name
+     * @param string $index Elastic Search home name
      * @param string $type  Elastic Search document type
      */
     public function __construct($index, $type)
@@ -54,7 +54,7 @@ class ElasticaFormatter extends NormalizerFormatter
     }
 
     /**
-     * Getter index
+     * Getter home
      * @return string
      */
     public function getIndex()

@@ -13,19 +13,20 @@ function indexAction() {
 }
 
 function addAction() {
-    global $error, $post_cat_name, $slug;
-    if (isset($_POST['btn-add-page'])) {
+    global $error, $product_cat_name, $slug;
+    if (isset($_POST['btn-add'])) {
         $error = array();
 
-        if (empty($_POST['post_cat_name'])) {
-            $error['post_cat_name'] = "Không được để trống têm danh mục";
+        if (empty($_POST['product_cat_name'])) {
+            $error['product_cat_name'] = "Không được để trống tên danh mục";
         } else {
-            if (strlen($_POST['post_cat_name']) <= 4) {
-                $error['post_cat_name'] = "Tên danh mục phải lớn hơn 4 ký tự";
+            if (strlen($_POST['product_cat_name']) <= 2) {
+                $error['product_cat_name'] = "Tên danh mục phải lớn hơn 2 ký tự";
             } else {
-                $post_cat_name = $_POST['post_cat_name'];
+                $product_cat_name = $_POST['product_cat_name'];
             }
         }
+
 
         if (empty($_POST['slug'])) {
             $error['slug'] = "Không được để trống slug";
@@ -37,18 +38,25 @@ function addAction() {
             }
         }
 
+        if (!empty($_POST['product_cat_level'])) {
+            $level = $_POST['product_cat_level'] + 1;
+        } else {
+            $level = 1;
+        }
+
         if (empty($error)) {
             $user = get_user_login_by_username($_SESSION['user_login']);
 
             $data = array(
-                'post_cat_name' => $post_cat_name,
+                'product_cat_name' => $product_cat_name,
                 'slug' => $slug,
+                'level' => $level,
                 'user_id' => $user['user_id'],
                 'created_date' => date_format(date_create(), 'Y-m-d H:i:s')
             );
-            add_cat_post($data);
+            add_cat_product($data);
 
-            redirect("?mod=posts&controller=cat");
+            redirect("?mod=products&controller=cat");
         }
 
     }
@@ -57,7 +65,7 @@ function addAction() {
 }
 
 function editAction() {
-    global $error, $post_cat_name, $slug;
+    global $error, $product_cat_name, $slug;
     if (!empty($_GET['id'])) {
         $id = $_GET['id'];
     }
@@ -65,13 +73,13 @@ function editAction() {
     if (isset($_POST['btn-edit'])) {
         $error = array();
 
-        if (empty($_POST['post_cat_name'])) {
-            $error['post_cat_name'] = "Không được để trống têm danh mục";
+        if (empty($_POST['product_cat_name'])) {
+            $error['product_cat_name'] = "Không được để trống têm danh mục";
         } else {
-            if (strlen($_POST['post_cat_name']) <= 4) {
-                $error['post_cat_name'] = "Tên danh mục phải lớn hơn 4 ký tự";
+            if (strlen($_POST['product_cat_name']) <= 2) {
+                $error['product_cat_name'] = "Tên danh mục phải lớn hơn 2 ký tự";
             } else {
-                $post_cat_name = $_POST['post_cat_name'];
+                $product_cat_name = $_POST['product_cat_name'];
             }
         }
 
@@ -85,18 +93,25 @@ function editAction() {
             }
         }
 
+        if (!empty($_POST['product_cat_level'])) {
+            $level = $_POST['product_cat_level'] + 1;
+        } else {
+            $level = 1;
+        }
+
         if (empty($error)) {
             $data = array(
-                'post_cat_name' => $post_cat_name,
+                'product_cat_name' => $product_cat_name,
                 'slug' => $slug,
+                'level' => $level,
                 'created_date' => date_format(date_create(), 'Y-m-d H:i:s')
             );
-            update_cat_post($id, $data);
+            update_cat_product($id, $data);
         }
     }
 
-    $info_cat_post = get_cat_post_by_id($id);
-    $data['info_cat_post'] = $info_cat_post;
+    $info_cat_product = get_cat_product_by_id($id);
+    $data['info_cat_product'] = $info_cat_product;
 
     load_view('catEdit', $data);
 }
@@ -106,7 +121,7 @@ function deleteAction() {
         $id = $_GET['id'];
     }
 
-    delete_cat_post_by_id($id);
+    delete_cat_product_by_id($id);
 
-    redirect('?mod=posts&controller=cat');
+    redirect('?mod=products&controller=cat');
 }

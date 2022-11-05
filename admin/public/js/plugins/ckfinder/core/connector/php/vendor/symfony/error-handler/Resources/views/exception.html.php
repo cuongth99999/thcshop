@@ -54,7 +54,7 @@
                 foreach ($exceptionAsArray as $i => $e) {
                     echo $this->include('views/traces.html.php', [
                         'exception' => $e,
-                        'index' => $i + 1,
+                        'home' => $i + 1,
                         'expand' => in_array($i, $exceptionWithUserCode, true) || ([] === $exceptionWithUserCode && 0 === $i),
                     ]);
                 }
@@ -95,7 +95,7 @@
                 foreach ($exceptionAsArray as $i => $e) {
                     echo $this->include('views/traces_text.html.php', [
                         'exception' => $e,
-                        'index' => $i + 1,
+                        'home' => $i + 1,
                         'numExceptions' => $exceptionAsArrayCount,
                     ]);
                 }

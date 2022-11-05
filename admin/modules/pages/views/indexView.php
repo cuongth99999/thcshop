@@ -99,9 +99,9 @@ $list_pages = get_pages($start, $num_per_page, $filter);
                                 </thead>
                                 <tbody>
                                 <?php
-                                $stt = 0;
+                                $stt = $start;
                                 foreach ($list_pages as $item):
-                                $stt++;
+                                    $stt++;
                                 ?>
                                 <tr>
                                     <td><span class="tbody-text"><?php echo $stt; ?></h3></span>

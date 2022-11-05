@@ -19,7 +19,7 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 $config['base_url'] = "http://localhost/studyPHP_unitop/back-end/project/ismart/";
 
 
-$config['default_module'] = 'users';
+$config['default_module'] = 'home';
 $config['default_controller'] = 'index';
 $config['default_action'] = 'index';
 

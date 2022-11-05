@@ -947,7 +947,7 @@ most recent available API version that your client's API provider can find.
 Note: Using 'latest' in a production application is not recommended.
 
 A list of available API versions can be found on each client's API documentation
-page: http://docs.aws.amazon.com/aws-sdk-php/v3/api/index.html. If you are
+page: http://docs.aws.amazon.com/aws-sdk-php/v3/api/home.html. If you are
 unable to load a specific API version, then you may need to update your copy of
 the SDK.
 EOT;

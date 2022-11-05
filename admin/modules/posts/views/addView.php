@@ -15,31 +15,30 @@ get_header();
         <div id="content" class="fl-right">
             <div class="section" id="title-page">
                 <div class="clearfix">
-                    <h3 id="index" class="fl-left">Thêm trang</h3>
+                    <h3 id="index" class="fl-left">Thêm bài viết</h3>
                 </div>
             </div>
             <div class="section" id="detail-page">
                 <div class="section-detail">
                     <form method="POST" enctype="multipart/form-data">
                         <label for="title">Tiêu đề</label>
-                        <input type="text" name="page_title" id="title" value="<?php echo !empty($_POST['page_title'])?$_POST['page_title']:false; ?>">
-                        <?php echo form_error('page_title') ?>
+                        <input type="text" name="post_title" id="title" value="<?php echo !empty($_POST['post_title'])?$_POST['post_title']:false; ?>">
+                        <?php echo form_error('post_title') ?>
 
                         <label for="title">Slug ( Friendly_url )</label>
-                        <input type="text" name="slug" id="slug" value="<?php echo set_value('slug'); ?>">
-                        <?php echo form_error('slug') ?>
+                        <input type="text" name="post_slug" id="slug" value="<?php echo !empty($_POST['post_slug'])?$_POST['post_slug']:false; ?>">
+                        <?php echo form_error('post_slug') ?>
 
-                        <label for="desc">Mô tả</label>
-                        <textarea name="page_desc" id="desc" class="ckeditor"><?php echo !empty($_POST['page_desc'])?$_POST['page_desc']:false; ?></textarea>
-                        <?php echo form_error('page_desc') ?>
-
+                        <label for="desc">Nội dung</label>
+                        <textarea name="post_desc" id="desc" class="ckeditor"><?php echo !empty($_POST['post_desc'])?$_POST['post_desc']:false; ?></textarea>
+                        <?php echo form_error('post_desc') ?>
                         <label for="status">Trạng thái</label>
-                        <select name="page_status" id="status" style="width: 250px; height: 40px">
+                        <select name="post_status" id="status" style="width: 250px; height: 40px">
                             <option value="0">Chọn trạng thái</option>
-                            <option value="Đã duyệt" <?php echo !empty(($_POST['page_status']))&& ($_POST['page_status'])=='Đã duyệt'?'selected':false; ?>>Duyệt</option>
-                            <option value="Chờ duyệt" <?php echo !empty(($_POST['page_status'])) && ($_POST['page_status'])=='Chờ duyệt'?'selected':false; ?>>Chờ xét duyệt</option>
+                            <option value="Đã duyệt" <?php echo !empty(($_POST['post_status']))&& ($_POST['post_status'])=='Đã duyệt'?'selected':false; ?>>Duyệt</option>
+                            <option value="Chờ duyệt" <?php echo !empty(($_POST['post_status'])) && ($_POST['post_status'])=='Chờ duyệt'?'selected':false; ?>>Chờ xét duyệt</option>
                         </select>
-                        <?php echo form_error('page_status') ?>
+                        <?php echo form_error('post_status') ?>
 
                         <label>Hình ảnh</label>
                         <div id="uploadFile">
@@ -47,7 +46,23 @@ get_header();
                         </div>
                         <?php echo form_error('file') ?>
 
-                        <button type="submit" name="btn-add-page" id="btn-submit">Thêm trang</button>
+                        <label>Danh mục bài viết</label>
+                        <select name="post_cat_id">
+                            <option value="0">-- Chọn danh mục --</option>
+                            <?php
+                                $list_cat_post = get_info_cat_post();
+                                if (!empty($list_cat_post)):
+                                    foreach ($list_cat_post as $item):
+                            ?>
+                                        <option value="<?php echo $item['post_cat_id']; ?>" <?php echo !empty(($_POST['post_cat_id'])) && ($_POST['post_cat_id'])==$item['post_cat_id']?'selected':false; ?>><?php echo  $item['post_cat_name']; ?></option>
+                            <?php
+                                    endforeach;
+                                endif;
+                            ?>
+                        </select>
+                        <?php echo form_error('post_cat_id') ?>
+
+                        <button type="submit" name="btn-add" id="btn-submit">Thêm bài viết</button>
                     </form>
                 </div>
             </div>

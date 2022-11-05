@@ -7,10 +7,10 @@ get_header();
             <div class="secion-detail">
                 <ul class="list-item clearfix">
                     <li>
-                        <a href="?" title="">Trang chủ</a>
+                        <a href="trang-chu.html" title="">Trang chủ</a>
                     </li>
                     <li>
-                        <a href="?mod=intro" title="">Giới thiệu</a>
+                        <a href="lien-he.html" title="">Liên hệ</a>
                     </li>
                 </ul>
             </div>
@@ -34,16 +34,16 @@ get_header();
                             foreach ($list_product_bestseller as $item):
                                 ?>
                                 <li class="clearfix">
-                                    <a href="?mod=products&action=detail&product_id=<?php echo $item['id']; ?>" title="" class="thumb fl-left">
+                                    <a href="san-pham/<?php echo $item['slug']; ?>-<?php echo $item['id'] ?>.html" title="" class="thumb fl-left">
                                         <img src="<?php echo $item['thumbnail']; ?>" alt="">
                                     </a>
                                     <div class="info fl-right">
-                                        <a href="?mod=products&action=detail&product_id=<?php echo $item['id']; ?>" title="" class="product-name"><?php echo $item['product_name']; ?></a>
+                                        <a href="san-pham/<?php echo $item['slug']; ?>-<?php echo $item['id'] ?>.html" title="" class="product-name"><?php echo $item['product_name']; ?></a>
                                         <div class="price">
                                             <span class="new"><?php echo currency_format($item['price']); ?></span>
                                             <span class="old"><?php echo currency_format($item['price']/0.9); ?></span>
                                         </div>
-                                        <a href="" title="" class="buy-now">Mua ngay</a>
+                                        <a href="thanh-toan-<?php echo $item['slug']; ?>-<?php echo $item['id']; ?>.html" title="" class="buy-now">Mua ngay</a>
                                     </div>
                                 </li>
                             <?php endforeach; endif; ?>

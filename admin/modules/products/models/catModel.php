@@ -10,35 +10,35 @@ function get_user_login_by_username($username) {
     return $user;
 }
 
-function add_cat_post ($data) {
-    return db_insert('tbl_post_categories', $data);
+function add_cat_product ($data) {
+    return db_insert('tbl_product_categories', $data);
 }
 
 function get_list_cats () {
-    $result = db_fetch_array("SELECT `tbl_post_categories`.*, `tbl_users`.fullname FROM `tbl_post_categories` INNER JOIN `tbl_users` ON
-                        `tbl_post_categories`.user_id = `tbl_users`.user_id");
+    $result = db_fetch_array("SELECT `tbl_product_categories`.*, `tbl_users`.fullname FROM `tbl_product_categories` INNER JOIN `tbl_users` ON
+                        `tbl_product_categories`.user_id = `tbl_users`.user_id");
     return $result;
 }
 
-function get_cat_post_by_id ($id) {
-    $item = db_fetch_row("SELECT * FROM `tbl_post_categories` WHERE `post_cat_id` = {$id}");
+function get_cat_product_by_id ($id) {
+    $item = db_fetch_row("SELECT * FROM `tbl_product_categories` WHERE `product_cat_id` = {$id}");
     return $item;
 }
 
 function get_cats($start = 1, $num_per_page = 5, $filter = "") {
 
-    $list_cats = db_fetch_array("SELECT `tbl_post_categories`.*, `tbl_users`.fullname FROM `tbl_post_categories` INNER JOIN `tbl_users` ON
-                        `tbl_post_categories`.user_id = `tbl_users`.user_id {$filter} LIMIT {$start}, {$num_per_page}");
+    $list_cats = db_fetch_array("SELECT `tbl_product_categories`.*, `tbl_users`.fullname FROM `tbl_product_categories` INNER JOIN `tbl_users` ON
+                        `tbl_product_categories`.user_id = `tbl_users`.user_id {$filter} LIMIT {$start}, {$num_per_page}");
 
     return $list_cats;
 }
 
-function update_cat_post ($id, $data) {
-    db_update('tbl_post_categories', $data, "`post_cat_id` = '{$id}'");
+function update_cat_product ($id, $data) {
+    db_update('tbl_product_categories', $data, "`product_cat_id` = '{$id}'");
 }
 
-function delete_cat_post_by_id ($id) {
-    db_delete('tbl_post_categories', "`post_cat_id` = '{$id}'");
+function delete_cat_product_by_id ($id) {
+    db_delete('tbl_product_categories', "`product_cat_id` = '{$id}'");
 }
 
 function get_pagging($num_page, $page, $base_url = "") {

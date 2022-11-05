@@ -43,7 +43,7 @@ get_header();
 
                             <label>Hình ảnh</label>
                             <div id="uploadFile">
-                                <input type="file" name="file" id="upload-thumb">
+                                <input type="file" name="file" id="upload-thumb" value="<?php echo $info_page['image']; ?>">
                             </div>
                             <?php echo form_error('file') ?>
 

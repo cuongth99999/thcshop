@@ -1,9 +1,8 @@
 <?php
 
-function get_list_posts($start = 1, $num_per_page = 10) {
-    $list_posts = db_fetch_array("SELECT `tbl_posts`.* FROM `tbl_posts` LIMIT {$start}, {$num_per_page}");
-
-    return $list_posts;
+function get_page_intro() {
+    $page_intro = db_fetch_row("SELECT * FROM `tbl_pages` WHERE page_title = 'Giới thiệu'");
+    return$page_intro;
 }
 
 function get_list_product_bestseller() {

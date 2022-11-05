@@ -81,12 +81,22 @@ $(document).ready(function () {
     $('#plus').click(function () {
         value++;
         $('#num-order').attr('value', value);
+        //update dữ liệu vào url thẻ a btn_add_cart
+        var btn_add_href = $('#add_cart_detail').attr('href');
+        var btn_add = btn_add_href.slice(0, btn_add_href.lastIndexOf("&qty=") + 5);
+        $('#add_cart_detail').attr('href', btn_add + value);
+        // console.log($('#add_cart_detail').attr('href', btn_add + value))
         update_href(value);
     });
     $('#minus').click(function () {
         if (value > 1) {
             value--;
             $('#num-order').attr('value', value);
+            //update dữ liệu vào url thẻ a btn_add_cart
+            var btn_add_href = $('#add_cart_detail').attr('href');
+            var btn_add = btn_add_href.slice(0, btn_add_href.lastIndexOf("&qty=") + 5);
+            $('#add_cart_detail').attr('href', btn_add + value);
+            // console.log($('#add_cart_detail').attr('href', btn_add + value))
         }
         update_href(value);
     });

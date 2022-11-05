@@ -10,35 +10,35 @@ function get_user_login_by_username($username) {
     return $user;
 }
 
-function add_cat_post ($data) {
-    return db_insert('tbl_post_categories', $data);
+function add_brand ($data) {
+    return db_insert('tbl_brands', $data);
 }
 
-function get_list_cats () {
-    $result = db_fetch_array("SELECT `tbl_post_categories`.*, `tbl_users`.fullname FROM `tbl_post_categories` INNER JOIN `tbl_users` ON
-                        `tbl_post_categories`.user_id = `tbl_users`.user_id");
+function get_list_brands () {
+    $result = db_fetch_array("SELECT `tbl_brands`.*, `tbl_users`.fullname FROM `tbl_brands` INNER JOIN `tbl_users` ON
+                        `tbl_brands`.user_id = `tbl_users`.user_id");
     return $result;
 }
 
-function get_cat_post_by_id ($id) {
-    $item = db_fetch_row("SELECT * FROM `tbl_post_categories` WHERE `post_cat_id` = {$id}");
+function get_brands_by_id ($id) {
+    $item = db_fetch_row("SELECT * FROM `tbl_brands` WHERE `brand_id` = {$id}");
     return $item;
 }
 
-function get_cats($start = 1, $num_per_page = 5, $filter = "") {
+function get_brands($start = 1, $num_per_page = 5, $filter = "") {
 
-    $list_cats = db_fetch_array("SELECT `tbl_post_categories`.*, `tbl_users`.fullname FROM `tbl_post_categories` INNER JOIN `tbl_users` ON
-                        `tbl_post_categories`.user_id = `tbl_users`.user_id {$filter} LIMIT {$start}, {$num_per_page}");
+    $list_brands = db_fetch_array("SELECT `tbl_brands`.*, `tbl_users`.fullname FROM `tbl_brands` INNER JOIN `tbl_users` ON
+                        `tbl_brands`.user_id = `tbl_users`.user_id {$filter} LIMIT {$start}, {$num_per_page}");
 
-    return $list_cats;
+    return $list_brands;
 }
 
-function update_cat_post ($id, $data) {
-    db_update('tbl_post_categories', $data, "`post_cat_id` = '{$id}'");
+function update_brand ($id, $data) {
+    db_update('tbl_brands', $data, "`brand_id` = '{$id}'");
 }
 
-function delete_cat_post_by_id ($id) {
-    db_delete('tbl_post_categories', "`post_cat_id` = '{$id}'");
+function delete_brand_by_id ($id) {
+    db_delete('tbl_brands', "`brand_id` = '{$id}'");
 }
 
 function get_pagging($num_page, $page, $base_url = "") {

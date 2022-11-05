@@ -1,30 +1,9 @@
 <?php
 
-function get_list_product_telephone() {
-    $list_product_telephone= db_fetch_array("SELECT `tbl_products`.* FROM `tbl_products`
-                        INNER JOIN  `tbl_product_categories` ON `tbl_products`.product_cat_id = `tbl_product_categories`.product_cat_id
-                        INNER JOIN `tbl_brands` ON `tbl_products`.brand_id =`tbl_brands`.brand_id
-                         WHERE `tbl_products`.status = 'Đã duyệt' AND `tbl_product_categories`.product_cat_name_parent = 'Điện thoại' LIMIT 0,8");
+function get_list_posts($start = 1, $num_per_page = 10) {
+    $list_posts = db_fetch_array("SELECT `tbl_posts`.* FROM `tbl_posts` LIMIT {$start}, {$num_per_page}");
 
-    return $list_product_telephone;
-}
-
-function get_list_product_laptop() {
-    $list_product_laptop= db_fetch_array("SELECT `tbl_products`.* FROM `tbl_products`
-                        INNER JOIN  `tbl_product_categories` ON `tbl_products`.product_cat_id = `tbl_product_categories`.product_cat_id
-                        INNER JOIN `tbl_brands` ON `tbl_products`.brand_id =`tbl_brands`.brand_id
-                         WHERE `tbl_products`.status = 'Đã duyệt' AND `tbl_product_categories`.product_cat_name_parent = 'Laptop' LIMIT 0,8");
-
-    return $list_product_laptop;
-}
-
-function get_list_product_accessory() {
-    $list_product_accessory= db_fetch_array("SELECT `tbl_products`.* FROM `tbl_products`
-                        INNER JOIN  `tbl_product_categories` ON `tbl_products`.product_cat_id = `tbl_product_categories`.product_cat_id
-                        INNER JOIN `tbl_brands` ON `tbl_products`.brand_id =`tbl_brands`.brand_id
-                         WHERE `tbl_products`.status = 'Đã duyệt' AND `tbl_product_categories`.product_cat_name_parent = 'Phụ kiện' LIMIT 0,8");
-
-    return $list_product_accessory;
+    return $list_posts;
 }
 
 function get_list_product_bestseller() {
@@ -34,15 +13,6 @@ function get_list_product_bestseller() {
                          WHERE `tbl_products`.status = 'Đã duyệt' AND `tbl_products`.product_type = 'Bán chạy'");
 
     return $list_product_bestseller;
-}
-
-function get_list_product_featured() {
-    $list_product_featured = db_fetch_array("SELECT `tbl_products`.* FROM `tbl_products`
-                        INNER JOIN  `tbl_product_categories` ON `tbl_products`.product_cat_id = `tbl_product_categories`.product_cat_id
-                        INNER JOIN `tbl_brands` ON `tbl_products`.brand_id =`tbl_brands`.brand_id
-                         WHERE `tbl_products`.status = 'Đã duyệt' AND `tbl_products`.product_type = 'Nổi bật'");
-
-    return $list_product_featured;
 }
 
 function get_list_sliders() {
@@ -74,4 +44,33 @@ function show_categories_home($data, $parent_id = 0, $stt = 0) {
             echo '</ul>';
         }
     }
+}
+
+function get_pagging($num_page, $page, $base_url = "") {
+
+    $str_pagging = "<div class=\"section\" id=\"paging-wp\">
+                <div class=\"section-detail\">
+                    <ul class=\"list-item clearfix\">";
+
+    if ($page > 1) {
+        $page_prev = $page - 1;
+        $str_pagging .= "<li><a href=\"{$base_url}-trang-{$page_prev}.html\"><</a></li>";
+    }
+    for ($i = 1; $i <= $num_page; $i++) {
+        $active = "";
+        if ($i == $page) {
+            $active = "class = 'active-paging'";
+        }
+        $str_pagging .= "<li><a {$active} href=\"{$base_url}-trang-{$i}.html\">$i</a></li>";
+    }
+    if ($page < $num_page) {
+        $page_next = $page + 1;
+        $str_pagging .= "<li><a href=\"{$base_url}-trang-{$page_next}.html\">></a></li>";
+    }
+
+    $str_pagging .= "</ul>
+                </div>
+            </div>";
+
+    return $str_pagging;
 }

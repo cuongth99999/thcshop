@@ -14,39 +14,45 @@ function indexAction() {
 
 function addAction() {
     global $error, $title, $slug, $desc;
-    if (isset($_POST['btn-add-page'])) {
+    if (isset($_POST['btn-add'])) {
         $error = array();
 
-        if (empty($_POST['page_title'])) {
-            $error['page_title'] = "Không được để trống tiêu đề trang";
+        if (empty($_POST['post_title'])) {
+            $error['post_title'] = "Không được để trống tiêu đề bài viết";
         } else {
-            if (strlen($_POST['page_title']) <= 4) {
-                $error['page_title'] = "Tiêu đề trang phải lớn hơn 4 ký tự";
+            if (strlen($_POST['post_title']) <= 4) {
+                $error['post_title'] = "Tiêu đề bài viết lớn hơn 4 ký tự";
             } else {
-                $title = $_POST['page_title'];
+                $title = $_POST['post_title'];
             }
         }
 
-        if (empty($_POST['slug'])) {
-            $error['slug'] = "Không được để trống slug";
+        if (empty($_POST['post_slug'])) {
+            $error['post_slug'] = "Không được để trống slug";
         } else {
-            if (strlen($_POST['slug']) <= 2) {
-                $error['slug'] = "Slug phải lớn hơn 2 ký tự";
+            if (strlen($_POST['post_slug']) <= 2) {
+                $error['post_slug'] = "Slug phải lớn hơn 2 ký tự";
             } else {
-                $slug = $_POST['slug'];
+                $slug = $_POST['post_slug'];
             }
         }
 
-        if (empty($_POST['page_desc'])) {
-            $error['page_desc'] = "Không được để trống mô tả trang";
+        if (empty($_POST['post_desc'])) {
+            $error['post_desc'] = "Không được để trống nội dung bài viết";
         } else {
-            $desc = $_POST['page_desc'];
+            $desc = $_POST['post_desc'];
         }
 
-        if (empty($_POST['page_status'])) {
-            $error['page_status'] = "Trạng thái phải được chọn";
+        if (empty($_POST['post_status'])) {
+            $error['post_status'] = "Trạng thái phải được chọn";
         } else {
-            $status = $_POST['page_status'];
+            $status = $_POST['post_status'];
+        }
+
+        if (empty($_POST['post_cat_id'])) {
+            $error['post_cat_id'] = "Danh mục bài viết phải được chọn";
+        } else {
+            $post_cat_id = $_POST['post_cat_id'];
         }
 
         // Xử lý file
@@ -96,19 +102,19 @@ function addAction() {
             $user = get_user_login_by_username($_SESSION['user_login']);
 
             $data = array(
-                'page_title' => $title,
-                'page_desc' => $desc,
-                'page_slug' => $slug,
-                'page_status' => $status,
-                'image' => $upload_file,
-                'page_user_id' => $user['user_id'],
+                'post_title' => $title,
+                'post_desc' => $desc,
+                'post_slug' => $slug,
+                'post_status' => $status,
+                'post_thumbnail' => $upload_file,
+                'user_id' => $user['user_id'],
+                'post_cat_id' => $post_cat_id,
                 'created_date' => date_format(date_create(), 'Y-m-d H:i:s')
             );
-            add_page($data);
+            add_post($data);
 
-            redirect("?mod=pages");
+            redirect("?mod=posts");
         }
-
     }
 
     load_view('add');
@@ -120,39 +126,45 @@ function editAction() {
         $id = $_GET['id'];
     }
 
-    if (isset($_POST['btn-edit-page'])) {
+    if (isset($_POST['btn-edit'])) {
         $error = array();
 
-        if (empty($_POST['page_title'])) {
-            $error['page_title'] = "Không được để trống tiêu đề trang";
+        if (empty($_POST['post_title'])) {
+            $error['post_title'] = "Không được để trống tiêu đề bài viết";
         } else {
-            if (strlen($_POST['page_title']) <= 4) {
-                $error['page_title'] = "Tiêu đề trang phải lớn hơn 4 ký tự";
+            if (strlen($_POST['post_title']) <= 4) {
+                $error['post_title'] = "Tiêu đề bài viết lớn hơn 4 ký tự";
             } else {
-                $title = $_POST['page_title'];
+                $title = $_POST['post_title'];
             }
         }
 
-        if (empty($_POST['slug'])) {
-            $error['slug'] = "Không được để trống slug";
+        if (empty($_POST['post_slug'])) {
+            $error['post_slug'] = "Không được để trống slug";
         } else {
-            if (strlen($_POST['slug']) <= 2) {
-                $error['slug'] = "Slug phải lớn hơn 2 ký tự";
+            if (strlen($_POST['post_slug']) <= 2) {
+                $error['post_slug'] = "Slug phải lớn hơn 2 ký tự";
             } else {
-                $slug = $_POST['slug'];
+                $slug = $_POST['post_slug'];
             }
         }
 
-        if (empty($_POST['page_desc'])) {
-            $error['page_desc'] = "Không được để trống mô tả trang";
+        if (empty($_POST['post_desc'])) {
+            $error['post_desc'] = "Không được để trống nội dung bài viết";
         } else {
-            $desc = $_POST['page_desc'];
+            $desc = $_POST['post_desc'];
         }
 
-        if (empty($_POST['page_status'])) {
-            $error['page_status'] = "Trạng thái phải được chọn";
+        if (empty($_POST['post_status'])) {
+            $error['post_status'] = "Trạng thái phải được chọn";
         } else {
-            $status = $_POST['page_status'];
+            $status = $_POST['post_status'];
+        }
+
+        if (empty($_POST['post_cat_id'])) {
+            $error['post_cat_id'] = "Danh mục bài viết phải được chọn";
+        } else {
+            $post_cat_id = $_POST['post_cat_id'];
         }
 
         // Xử lý file
@@ -200,19 +212,20 @@ function editAction() {
 
         if (empty($error)) {
             $data = array(
-                'page_title' => $title,
-                'page_desc' => $desc,
-                'page_slug' => $slug,
-                'page_status' => $status,
-                'image' => $upload_file,
-                'updated_date' => date_format(date_create(), 'Y-m-d H:i:s')
+                'post_title' => $title,
+                'post_desc' => $desc,
+                'post_slug' => $slug,
+                'post_status' => $status,
+                'post_thumbnail' => $upload_file,
+                'post_cat_id' => $post_cat_id,
+                'created_date' => date_format(date_create(), 'Y-m-d H:i:s')
             );
-            update_page($id, $data);
+            update_post($id, $data);
         }
     }
 
-    $info_page = get_page_by_id($id);
-    $data['info_page'] = $info_page;
+    $info_post = get_post_by_id($id);
+    $data['info_post'] = $info_post;
 
     load_view('edit', $data);
 }
@@ -222,7 +235,7 @@ function deleteAction() {
         $id = $_GET['id'];
     }
 
-    delete_page_by_id($id);
+    delete_post_by_id($id);
 
-    redirect('?mod=pages');
+    redirect('?mod=posts');
 }

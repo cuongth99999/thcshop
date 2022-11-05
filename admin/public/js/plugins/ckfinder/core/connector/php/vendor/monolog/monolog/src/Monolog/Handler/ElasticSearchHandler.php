@@ -24,7 +24,7 @@ use Elastica\Exception\ExceptionInterface;
  *
  *    $client = new \Elastica\Client();
  *    $options = array(
- *        'index' => 'elastic_index_name',
+ *        'home' => 'elastic_index_name',
  *        'type' => 'elastic_doc_type',
  *    );
  *    $handler = new ElasticSearchHandler($client, $options);
@@ -57,7 +57,7 @@ class ElasticSearchHandler extends AbstractProcessingHandler
         $this->client = $client;
         $this->options = array_merge(
             array(
-                'index'          => 'monolog',      // Elastic index name
+                'home'          => 'monolog',      // Elastic home name
                 'type'           => 'record',       // Elastic document type
                 'ignore_error'   => false,          // Suppress Elastica exceptions
             ),
@@ -98,7 +98,7 @@ class ElasticSearchHandler extends AbstractProcessingHandler
      */
     protected function getDefaultFormatter()
     {
-        return new ElasticaFormatter($this->options['index'], $this->options['type']);
+        return new ElasticaFormatter($this->options['home'], $this->options['type']);
     }
 
     /**

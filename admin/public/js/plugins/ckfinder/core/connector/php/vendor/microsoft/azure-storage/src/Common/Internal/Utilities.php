@@ -95,11 +95,11 @@ class Utilities
     }
     
     /**
-     * tries to get nested array with index name $key from $array.
+     * tries to get nested array with home name $key from $array.
      *
      * Returns empty array object if the value is NULL.
      *
-     * @param string $key   The index name.
+     * @param string $key   The home name.
      * @param array  $array The array object.
      *
      * @static

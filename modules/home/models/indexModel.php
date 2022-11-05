@@ -1,68 +1,77 @@
 <?php
 
-function add_user($data) {
-    return db_insert('tbl_users', $data);
+function get_list_product_telephone() {
+    $list_product_telephone= db_fetch_array("SELECT `tbl_products`.* FROM `tbl_products`
+                        INNER JOIN  `tbl_product_categories` ON `tbl_products`.product_cat_id = `tbl_product_categories`.product_cat_id
+                        INNER JOIN `tbl_brands` ON `tbl_products`.brand_id =`tbl_brands`.brand_id
+                         WHERE `tbl_products`.status = 'Đã duyệt' AND `tbl_product_categories`.product_cat_name_parent = 'Điện thoại' LIMIT 0,8");
+
+    return $list_product_telephone;
 }
 
-function user_exists($username, $email) {
-    $check_user = db_num_rows("SELECT * FROM `tbl_users` WHERE `email` = '{$email}' OR `username` = '{$username}'");
-    echo $check_user;
-    if ($check_user > 0) {
-        return true;
+function get_list_product_laptop() {
+    $list_product_laptop= db_fetch_array("SELECT `tbl_products`.* FROM `tbl_products`
+                        INNER JOIN  `tbl_product_categories` ON `tbl_products`.product_cat_id = `tbl_product_categories`.product_cat_id
+                        INNER JOIN `tbl_brands` ON `tbl_products`.brand_id =`tbl_brands`.brand_id
+                         WHERE `tbl_products`.status = 'Đã duyệt' AND `tbl_product_categories`.product_cat_name_parent = 'Laptop' LIMIT 0,8");
+
+    return $list_product_laptop;
+}
+
+function get_list_product_accessory() {
+    $list_product_accessory= db_fetch_array("SELECT `tbl_products`.* FROM `tbl_products`
+                        INNER JOIN  `tbl_product_categories` ON `tbl_products`.product_cat_id = `tbl_product_categories`.product_cat_id
+                        INNER JOIN `tbl_brands` ON `tbl_products`.brand_id =`tbl_brands`.brand_id
+                         WHERE `tbl_products`.status = 'Đã duyệt' AND `tbl_product_categories`.product_cat_name_parent = 'Phụ kiện' LIMIT 0,8");
+
+    return $list_product_accessory;
+}
+
+function get_list_product_bestseller() {
+    $list_product_bestseller = db_fetch_array("SELECT `tbl_products`.* FROM `tbl_products`
+                        INNER JOIN  `tbl_product_categories` ON `tbl_products`.product_cat_id = `tbl_product_categories`.product_cat_id
+                        INNER JOIN `tbl_brands` ON `tbl_products`.brand_id =`tbl_brands`.brand_id
+                         WHERE `tbl_products`.status = 'Đã duyệt' AND `tbl_products`.product_type = 'Bán chạy'");
+
+    return $list_product_bestseller;
+}
+
+function get_list_product_featured() {
+    $list_product_featured = db_fetch_array("SELECT `tbl_products`.* FROM `tbl_products`
+                        INNER JOIN  `tbl_product_categories` ON `tbl_products`.product_cat_id = `tbl_product_categories`.product_cat_id
+                        INNER JOIN `tbl_brands` ON `tbl_products`.brand_id =`tbl_brands`.brand_id
+                         WHERE `tbl_products`.status = 'Đã duyệt' AND `tbl_products`.product_type = 'Nổi bật'");
+
+    return $list_product_featured;
+}
+
+function get_list_sliders() {
+    $list_sliders = db_fetch_array("SELECT * FROM `tbl_sliders`");
+    return $list_sliders;
+}
+
+function get_product_categories() {
+    return db_fetch_array("SELECT * FROM `tbl_product_categories`");
+}
+
+function show_categories_home($data, $parent_id = 0, $stt = 0) {
+    if (!empty($data)) {
+        $cate_child = array();
+        foreach ($data as $key => $item) {
+            if ($item['product_cat_parent_id'] == $parent_id) {
+                $cate_child[] = $item;
+                unset($data[$key]);
+            }
+        }
+        if ($cate_child) {
+            echo ($stt == 0)?'<ul class="list-item">':'<ul class="sub-menu">';
+            foreach ($cate_child as $key => $item) {
+                echo '<li>';
+                echo '<a href="danh-muc/'.$item['slug'].'-'.$item['product_cat_id'].'.html" title="">'.$item['product_cat_name'].'</a>';
+                show_categories_home($data, $item['product_cat_id'], ++$stt);
+                echo '</li>';
+            }
+            echo '</ul>';
+        }
     }
-    return false;
-}
-
-function get_list_users() {
-    $result = db_fetch_array("SELECT * FROM `tbl_users`");
-    return $result;
-}
-
-function get_user_by_id($id) {
-    $item = db_fetch_row("SELECT * FROM `tbl_users` WHERE `user_id` = {$id}");
-    return $item;
-}
-
-function active_user($active_token) {
-    return db_update('tbl_users', array('is_active' =>1), "`active_token` = '{$active_token}'");
-}
-
-function check_active_token($active_token) {
-    $check = db_num_rows("SELECT * FROM `tbl_users` WHERE `active_token` = '{$active_token}' AND `is_active` = '0'");
-    if ($check > 0) {
-        return true;
-    }
-    return false;
-}
-
-function check_login($username, $password) {
-    $check_user = db_num_rows("SELECT * FROM `tbl_users` WHERE `username` = '{$username}' AND `password` = '{$password}'");
-    if ($check_user > 0) {
-        return true;
-    }
-    return false;
-}
-
-function check_email($email) {
-    $check_email = db_num_rows("SELECT * FROM `tbl_users` WHERE `email` = '{$email}'");
-    if ($check_email > 0) {
-        return true;
-    }
-    return false;
-}
-
-function update_reset_token($data, $email) {
-    db_update('tbl_users', $data, "`email` = '{$email}'");
-}
-
-function check_reset_token($reset_token) {
-    $check = db_num_rows("SELECT * FROM `tbl_users` WHERE `reset_token` = '{$reset_token}'");
-    if ($check > 0) {
-        return true;
-    }
-    return false;
-}
-
-function update_pass($data, $reset_token) {
-    db_update('tbl_users', $data, "`reset_token` = '{$reset_token}'");
 }

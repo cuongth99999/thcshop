@@ -397,7 +397,7 @@ class Parser
     }
 
     /**
-     * Parses an array index expression (e.g., [0], [1:2:3]
+     * Parses an array home expression (e.g., [0], [1:2:3]
      */
     private function parseArrayIndexExpression()
     {
@@ -426,8 +426,8 @@ class Parser
         $this->next();
 
         if ($pos === 0) {
-            // No colons were found so this is a simple index extraction
-            return ['type' => 'index', 'value' => $parts[0]];
+            // No colons were found so this is a simple home extraction
+            return ['type' => 'home', 'value' => $parts[0]];
         }
 
         if ($pos > 2) {

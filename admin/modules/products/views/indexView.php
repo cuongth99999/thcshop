@@ -13,7 +13,7 @@ if (isset($_GET['btn-search'])) {
         } else {
             $operator = 'WHERE';
         }
-        $filter .= " $operator post_title LIKE '%$keyword%' OR post_title LIKE '%$keyword%'";
+        $filter .= " $operator product_name LIKE '%$keyword%' OR code LIKE '%$keyword%'";
     }
 }
 
@@ -33,16 +33,16 @@ if (!empty($_GET['status'])) {
         $operator = 'WHERE';
     }
 
-    $filter.= "WHERE post_status='{$status}'";
+    $filter.= "WHERE status='{$status}'";
 }
 
-$num_posts_solved = db_num_rows("SELECT * FROM `tbl_posts` WHERE post_status='Đã duyệt'");
-$num_posts_pending = db_num_rows("SELECT * FROM `tbl_posts` WHERE post_status='Chờ duyệt'");
+$num_products_solved = db_num_rows("SELECT * FROM `tbl_products` WHERE status='Đã duyệt'");
+$num_products_pending = db_num_rows("SELECT * FROM `tbl_products` WHERE status='Chờ duyệt'");
 
-$num_page = db_num_rows("SELECT * FROM `tbl_posts`");
+$num_page = db_num_rows("SELECT * FROM `tbl_products`");
 
 // Số lượng bản ghi trên trang
-$num_rows = db_num_rows("SELECT * FROM `tbl_posts`");
+$num_rows = db_num_rows("SELECT * FROM `tbl_products`");
 
 $num_per_page = 5;
 $total_row = $num_rows;
@@ -53,80 +53,83 @@ $page = isset($_GET['page'])?(int)$_GET['page']:1;
 $start = ($page - 1)*$num_per_page;
 
 // Hiển thị danh sách theo trang
-$list_posts = get_posts($start, $num_per_page, $filter);
+$list_products = get_products($start, $num_per_page, $filter);
+//$list_products = get_list_products();
+
 ?>
-    <div id="main-content-wp" class="list-post-page">
-        <div class="wrap clearfix">
-            <?php
-            get_sidebar();
-            ?>
-            <div id="content" class="fl-right">
-                <div class="section" id="title-page">
-                    <div class="clearfix">
-                        <h3 id="index" class="fl-left">Danh sách bài viết</h3>
-                        <a href="?mod=posts&action=add" title="" id="add-new" class="fl-left">Thêm mới</a>
-                    </div>
+<div id="main-content-wp" class="list-post-page">
+    <div class="wrap clearfix">
+        <?php
+        get_sidebar();
+        ?>
+        <div id="content" class="fl-right">
+            <div class="section" id="title-page">
+                <div class="clearfix">
+                    <h3 id="index" class="fl-left">Danh sách sản phẩm</h3>
+                    <a href="?mod=products&action=add" title="" id="add-new" class="fl-left">Thêm mới</a>
                 </div>
-                <div class="section" id="detail-page">
-                    <div class="section-detail">
-                        <div class="filter-wp clearfix">
-                            <ul class="post-status fl-left">
-                                <li class="all"><a href="?mod=posts">Tất cả <span class="count">(<?php echo $total_row; ?>)</span></a> |</li>
-                                <li class="publish"><a href="?mod=posts&status=1">Đã duyệt <span class="count">(<?php echo $num_posts_solved; ?>)</span></a> |</li>
-                                <li class="pending"><a href="?mod=posts&status=2">Chờ duyệt <span class="count">(<?php echo $num_posts_pending; ?>)</span> |</a></li>
-                            </ul>
-                            <form method="GET" class="form-s fl-right">
-                                <input type="hidden" name="mod" value="posts">
-                                <input type="text" name="keyword" id="">
-                                <input type="submit" name="btn-search" id="" value="Tìm kiếm">
-                            </form>
-                        </div>
-                        <?php
-                        if (!empty($list_posts)):
+            </div>
+            <div class="section" id="detail-page">
+                <div class="section-detail">
+                    <div class="filter-wp clearfix">
+                        <ul class="post-status fl-left">
+                            <li class="all"><a href="?mod=products">Tất cả <span class="count">(<?php echo $total_row; ?>)</span></a> |</li>
+                            <li class="publish"><a href="?mod=products&status=1">Đã duyệt <span class="count">(<?php echo $num_products_solved; ?>)</span></a> |</li>
+                            <li class="pending"><a href="?mod=products&status=2">Chờ duyệt <span class="count">(<?php echo $num_products_pending; ?>)</span> |</a></li>
+                        </ul>
+                        <form method="GET" class="form-s fl-right">
+                            <input type="hidden" name="mod" value="products">
+                            <input type="text" name="keyword" id="">
+                            <input type="submit" name="btn-search" id="" value="Tìm kiếm">
+                        </form>
+                    </div>
+                    <?php
+                    if (!empty($list_products)):
                         ?>
                         <div class="table-responsive">
                             <table class="table list-table-wp">
                                 <thead>
                                 <tr>
                                     <td><span class="thead-text">STT</span></td>
-                                    <td width="20%"><span class="thead-text">Tiêu đề</span></td>
-                                    <td width="10%"><span class="thead-text">Nội dung</span></td>
+                                    <td><span class="thead-text">Mã sản phẩm</span></td>
+                                    <td><span class="thead-text">Hình ảnh</span></td>
+                                    <td><span class="thead-text">Tên sản phẩm</span></td>
+                                    <td><span class="thead-text">Giá</span></td>
                                     <td><span class="thead-text">Danh mục</span></td>
                                     <td><span class="thead-text">Trạng thái</span></td>
                                     <td><span class="thead-text">Người tạo</span></td>
-                                    <td><span class="thead-text">Thời gian tạo</span></td>
+                                    <td><span class="thead-text">Thời gian</span></td>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php
                                 $stt = $start;
-                                foreach ($list_posts as $item):
+                                foreach ($list_products as $item):
                                     $stt++;
-                                ?>
-                                <tr>
-                                    <td><span class="tbody-text"><?php echo $stt; ?></h3></span>
-                                    <td class="clearfix">
-                                        <div class="tb-title fl-left">
-                                            <a href="" title=""><?php echo $item['post_title']; ?></a>
-                                        </div>
-                                        <ul class="list-operation fl-right">
-                                            <li><a href="?mod=posts&action=edit&id=<?php echo $item['post_id']; ?>" title="Sửa" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a></li>
-                                            <li><a href="?mod=posts&action=delete&id=<?php echo $item['post_id']; ?>" title="Xóa" class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
-                                        </ul>
-                                    </td>
-                                    <td width="40%"><span class="tbody-text" style="display: -webkit-box;
-                            max-height: 3.2rem;
-                           -webkit-box-orient: vertical;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            white-space: normal;
-                            -webkit-line-clamp: 2;
-                            line-height: 1.6rem; "><?php echo $item['post_desc']; ?></span></td>
-                                    <td><span class="tbody-text"><?php echo $item['post_cat_name']; ?></span></td>
-                                    <td><span class="tbody-text"><?php echo $item['post_status']; ?></span></td>
-                                    <td><span class="tbody-text"><?php echo $item['fullname']; ?></span></td>
-                                    <td><span class="tbody-text"><?php echo $item['created_date']; ?></span></td>
-                                </tr>
+                                    ?>
+                                    <tr>
+                                        <td><span class="tbody-text"><?php echo $stt; ?></h3></span>
+                                        <td><span class="tbody-text"><?php echo $item['code']; ?></h3></span>
+                                        <td>
+                                            <div class="tbody-thumb">
+                                                <img src="<?php echo $item['thumbnail']; ?>" alt="">
+                                            </div>
+                                        </td>
+                                        <td class="clearfix">
+                                            <div class="tb-title fl-left">
+                                                <a href="" title=""><?php echo $item['product_name']; ?></a>
+                                            </div>
+                                            <ul class="list-operation fl-right">
+                                                <li><a href="?mod=products&action=edit&id=<?php echo $item['id']; ?>" title="Sửa" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a></li>
+                                                <li><a href="?mod=products&action=delete&id=<?php echo $item['id']; ?>" title="Xóa" class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
+                                            </ul>
+                                        </td>
+                                        <td><span class="tbody-text"><?php echo currency_format($item['price']); ?></span></td>
+                                        <td><span class="tbody-text"><?php echo $item['product_cat_name']; ?></span></td>
+                                        <td><span class="tbody-text"><?php echo $item['status']; ?></span></td>
+                                        <td><span class="tbody-text"><?php echo $item['fullname']; ?></span></td>
+                                        <td><span class="tbody-text"><?php echo $item['created_date']; ?></span></td>
+                                    </tr>
                                 <?php
                                 endforeach;
                                 ?>
@@ -134,19 +137,19 @@ $list_posts = get_posts($start, $num_per_page, $filter);
                                 </tbody>
                             </table>
                         </div>
-                        <?php
-                        else:
-                            ?>
-                            <p style="text-align: center; font-size: 18px">Không có bài viết</p>
-                        <?php endif; ?>
-                    </div>
+                    <?php
+                    else:
+                        ?>
+                        <p style="text-align: center; font-size: 18px">Không có sản phẩm</p>
+                    <?php endif; ?>
                 </div>
-                <?php
-                echo get_pagging($num_page, $page, "?mod=posts");
-                ?>
             </div>
+            <?php
+            echo get_pagging($num_page, $page, "?mod=products");
+            ?>
         </div>
     </div>
+</div>
 <?php
 get_footer();
 ?>

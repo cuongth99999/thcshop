@@ -34,13 +34,13 @@ class EachPromise implements PromisorInterface
      * Configuration hash can include the following key value pairs:
      *
      * - fulfilled: (callable) Invoked when a promise fulfills. The function
-     *   is invoked with three arguments: the fulfillment value, the index
+     *   is invoked with three arguments: the fulfillment value, the home
      *   position from the iterable list of the promise, and the aggregate
      *   promise that manages all of the promises. The aggregate promise may
      *   be resolved from within the callback to short-circuit the promise.
      * - rejected: (callable) Invoked when a promise is rejected. The
      *   function is invoked with three arguments: the rejection reason, the
-     *   index position from the iterable list of the promise, and the
+     *   home position from the iterable list of the promise, and the
      *   aggregate promise that manages all of the promises. The aggregate
      *   promise may be resolved from within the callback to short-circuit
      *   the promise.

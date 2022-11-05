@@ -13,7 +13,7 @@ if (isset($_GET['btn-search'])) {
         } else {
             $operator = 'WHERE';
         }
-        $filter .= " $operator post_cat_name LIKE '%$keyword%'";
+        $filter .= " $operator brand_name LIKE '%$keyword%'";
     }
 }
 
@@ -37,10 +37,10 @@ if (!empty($_GET['status'])) {
 }
 
 
-$num_page = db_num_rows("SELECT * FROM `tbl_post_categories`");
+$num_page = db_num_rows("SELECT * FROM `tbl_brands`");
 
 // Số lượng bản ghi trên trang
-$num_rows = db_num_rows("SELECT * FROM `tbl_post_categories`");
+$num_rows = db_num_rows("SELECT * FROM `tbl_brands`");
 
 $num_per_page = 5;
 $total_row = $num_rows;
@@ -51,7 +51,7 @@ $page = isset($_GET['page'])?(int)$_GET['page']:1;
 $start = ($page - 1)*$num_per_page;
 
 // Hiển thị danh sách theo trang
-$list_cats = get_cats($start, $num_per_page, $filter);
+$list_brands = get_brands($start, $num_per_page, $filter);
 ?>
 <div id="main-content-wp" class="list-post-page">
     <div class="wrap clearfix">
@@ -61,32 +61,32 @@ $list_cats = get_cats($start, $num_per_page, $filter);
         <div id="content" class="fl-right">
             <div class="section" id="title-page">
                 <div class="clearfix">
-                    <h3 id="index" class="fl-left">Danh sách danh mục bài viết</h3>
-                    <a href="?mod=posts&controller=cat&action=add" title="" id="add-new" class="fl-left">Thêm mới</a>
+                    <h3 id="index" class="fl-left">Danh sách hãng sản xuất</h3>
+                    <a href="?mod=products&controller=brand&action=add" title="" id="add-new" class="fl-left">Thêm mới</a>
                 </div>
             </div>
             <div class="section" id="detail-page">
                 <div class="section-detail">
                     <div class="filter-wp clearfix">
                         <ul class="post-status fl-left">
-                            <li class="all"><a href="?mod=posts&controller=cat">Tất cả <span class="count">(<?php echo $total_row; ?>)</span></a> |</li>
+                            <li class="all"><a href="?mod=products&controller=brand">Tất cả <span class="count">(<?php echo $total_row; ?>)</span></a> |</li>
                         </ul>
                         <form method="GET" class="form-s fl-right">
-                            <input type="hidden" name="mod" value="posts">
-                            <input type="hidden" name="controller" value="cat">
+                            <input type="hidden" name="mod" value="products">
+                            <input type="hidden" name="controller" value="brand">
                             <input type="text" name="keyword" id="">
                             <input type="submit" name="btn-search" id="" value="Tìm kiếm">
                         </form>
                     </div>
                     <?php
-                    if (!empty($list_cats)):
+                    if (!empty($list_brands)):
                         ?>
                         <div class="table-responsive">
                             <table class="table list-table-wp">
                                 <thead>
                                 <tr>
                                     <td><span class="thead-text">STT</span></td>
-                                    <td><span class="thead-text">Tên danh mục</span></td>
+                                    <td><span class="thead-text">Tên hãng sản xuất</span></td>
                                     <td><span class="thead-text">Người tạo</span></td>
                                     <td><span class="thead-text">Thời gian tạo</span></td>
                                 </tr>
@@ -94,18 +94,18 @@ $list_cats = get_cats($start, $num_per_page, $filter);
                                 <tbody>
                                 <?php
                                 $stt = $start;
-                                foreach ($list_cats as $item):
+                                foreach ($list_brands as $item):
                                     $stt++;
                                     ?>
                                     <tr>
                                         <td><span class="tbody-text"><?php echo $stt; ?></h3></span>
                                         <td class="clearfix">
                                             <div class="tb-title fl-left">
-                                                <a href="" title=""><?php echo $item['post_cat_name']; ?></a>
+                                                <a href="" title=""><?php echo $item['brand_name']; ?></a>
                                             </div>
                                             <ul class="list-operation fl-right">
-                                                <li><a href="?mod=posts&controller=cat&action=edit&id=<?php echo $item['post_cat_id']; ?>" title="Sửa" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a></li>
-                                                <li><a href="?mod=posts&controller=cat&action=delete&id=<?php echo $item['post_cat_id']; ?>" title="Xóa" class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
+                                                <li><a href="?mod=products&controller=brand&action=edit&id=<?php echo $item['brand_id']; ?>" title="Sửa" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a></li>
+                                                <li><a href="?mod=products&controller=brand&action=delete&id=<?php echo $item['brand_id']; ?>" title="Xóa" class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
                                             </ul>
                                         </td>
                                         <td><span class="tbody-text"><?php echo $item['fullname']; ?></span></td>
@@ -121,12 +121,12 @@ $list_cats = get_cats($start, $num_per_page, $filter);
                     <?php
                     else:
                         ?>
-                        <p style="text-align: center; font-size: 18px">Không có trang</p>
+                        <p style="text-align: center; font-size: 18px">Không có hãng sản xuất</p>
                     <?php endif; ?>
                 </div>
             </div>
             <?php
-            echo get_pagging($num_page, $page, "?mod=posts&controller=cat");
+            echo get_pagging($num_page, $page, "?mod=products&controller=brand");
             ?>
         </div>
     </div>

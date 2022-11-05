@@ -2,36 +2,36 @@
 
 function construct() {
 //    echo "DÙng chung, load đầu tiên";
-    load_model('cat');
+    load_model('brand');
     load('lib', 'email');
 }
 
 function indexAction() {
     load('helper','format');
 
-    load_view('catIndex');
+    load_view('brandIndex');
 }
 
 function addAction() {
-    global $error, $post_cat_name, $slug;
-    if (isset($_POST['btn-add-page'])) {
+    global $error, $brand_name, $slug;
+    if (isset($_POST['btn-add'])) {
         $error = array();
 
-        if (empty($_POST['post_cat_name'])) {
-            $error['post_cat_name'] = "Không được để trống têm danh mục";
+        if (empty($_POST['brand_name'])) {
+            $error['brand_name'] = "Không được để trống tên hãng sản xuất";
         } else {
-            if (strlen($_POST['post_cat_name']) <= 4) {
-                $error['post_cat_name'] = "Tên danh mục phải lớn hơn 4 ký tự";
+            if (strlen($_POST['brand_name']) <= 1) {
+                $error['brand_name'] = "Tên hãng sản xuất phải lớn hơn 1 ký tự";
             } else {
-                $post_cat_name = $_POST['post_cat_name'];
+                $brand_name = $_POST['brand_name'];
             }
         }
 
         if (empty($_POST['slug'])) {
             $error['slug'] = "Không được để trống slug";
         } else {
-            if (strlen($_POST['slug']) <= 2) {
-                $error['slug'] = "Slug phải lớn hơn 2 ký tự";
+            if (strlen($_POST['slug']) <= 1) {
+                $error['slug'] = "Slug phải lớn hơn 1 ký tự";
             } else {
                 $slug = $_POST['slug'];
             }
@@ -41,19 +41,19 @@ function addAction() {
             $user = get_user_login_by_username($_SESSION['user_login']);
 
             $data = array(
-                'post_cat_name' => $post_cat_name,
+                'brand_name' => $brand_name,
                 'slug' => $slug,
                 'user_id' => $user['user_id'],
                 'created_date' => date_format(date_create(), 'Y-m-d H:i:s')
             );
-            add_cat_post($data);
+            add_brand($data);
 
-            redirect("?mod=posts&controller=cat");
+            redirect("?mod=products&controller=brand");
         }
 
     }
 
-    load_view('catAdd');
+    load_view('brandAdd');
 }
 
 function editAction() {
@@ -65,21 +65,21 @@ function editAction() {
     if (isset($_POST['btn-edit'])) {
         $error = array();
 
-        if (empty($_POST['post_cat_name'])) {
-            $error['post_cat_name'] = "Không được để trống têm danh mục";
+        if (empty($_POST['brand_name'])) {
+            $error['brand_name'] = "Không được để trống tên hãng sản xuất";
         } else {
-            if (strlen($_POST['post_cat_name']) <= 4) {
-                $error['post_cat_name'] = "Tên danh mục phải lớn hơn 4 ký tự";
+            if (strlen($_POST['brand_name']) <= 1) {
+                $error['brand_name'] = "Tên hãng sản xuất phải lớn hơn 1 ký tự";
             } else {
-                $post_cat_name = $_POST['post_cat_name'];
+                $brand_name = $_POST['brand_name'];
             }
         }
 
         if (empty($_POST['slug'])) {
             $error['slug'] = "Không được để trống slug";
         } else {
-            if (strlen($_POST['slug']) <= 2) {
-                $error['slug'] = "Slug phải lớn hơn 2 ký tự";
+            if (strlen($_POST['slug']) <= 1) {
+                $error['slug'] = "Slug phải lớn hơn 1 ký tự";
             } else {
                 $slug = $_POST['slug'];
             }
@@ -87,18 +87,18 @@ function editAction() {
 
         if (empty($error)) {
             $data = array(
-                'post_cat_name' => $post_cat_name,
+                'brand_name' => $brand_name,
                 'slug' => $slug,
                 'created_date' => date_format(date_create(), 'Y-m-d H:i:s')
             );
-            update_cat_post($id, $data);
+            update_brand($id, $data);
         }
     }
 
-    $info_cat_post = get_cat_post_by_id($id);
-    $data['info_cat_post'] = $info_cat_post;
+    $info_brand = get_brands_by_id($id);
+    $data['info_brand'] = $info_brand;
 
-    load_view('catEdit', $data);
+    load_view('brandEdit', $data);
 }
 
 function deleteAction() {
@@ -106,7 +106,7 @@ function deleteAction() {
         $id = $_GET['id'];
     }
 
-    delete_cat_post_by_id($id);
+    delete_brand_by_id($id);
 
-    redirect('?mod=posts&controller=cat');
+    redirect('?mod=products&controller=brand');
 }

@@ -1,5 +1,19 @@
 RewriteEngine On
 
-RewriteRule ^([a-zA-Z0-9_-]+)-([0-9]+).html$ index.php?mod=page&controller=index&action=detail&id=$2&slug=$1
-RewriteRule ^bai-viet/([a-zA-Z0-9_-]+)-([0-9]+).html$ index.php?mod=post&controller=index&action=detail&id=$2&slug=$1
+#RewriteRule ^/$ index.php?mod=home
+RewriteRule ^trang-chu.html$ index.php?mod=home
+RewriteRule ^danh-muc/(.+)-(.+).html$ index.php?mod=products&controller=category&id=$2&slug=$1
+RewriteRule ^san-pham.html$ index.php?mod=products
+RewriteRule ^san-pham-trang-(.+).html$ index.php?mod=products&page=$1
+RewriteRule ^bai-viet.html$ index.php?mod=posts
+RewriteRule ^bai-viet-trang-(.+).html$ index.php?mod=posts&page=$1
+RewriteRule ^gioi-thieu.html$ index.php?mod=intro
+RewriteRule ^lien-he.html$ index.php?mod=contact
+RewriteRule ^gio-hang.html$ index.php?mod=cart
+RewriteRule ^thanh-toan.html$ index.php?mod=checkout
+RewriteRule ^thanh-toan-(.+)-(.+).html$ index.php?mod=checkout&action=buy_detail&id=$2&slug=$1
+RewriteRule ^dat-hang-thanh-cong.html$ index.php?mod=checkout&action=success
+
+RewriteRule ^bai-viet/([a-zA-Z0-9_-]+)-([0-9]+).html$ index.php?mod=posts&controller=index&action=detail&id=$2&slug=$1
+RewriteRule ^san-pham/([a-zA-Z0-9_-]+)-([0-9]+).html$ index.php?mod=products&controller=index&action=detail&product_id=$2&slug=$1
 

@@ -106,7 +106,7 @@ class AcceptHeaderItem
     }
 
     /**
-     * Set the item index.
+     * Set the item home.
      *
      * @return $this
      */
@@ -118,7 +118,7 @@ class AcceptHeaderItem
     }
 
     /**
-     * Returns the item index.
+     * Returns the item home.
      *
      * @return int
      */

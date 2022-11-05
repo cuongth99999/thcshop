@@ -275,7 +275,7 @@ class MultipartUploader extends AbstractUploader
         // Split that range into it's parts.
         list($firstByte, $lastByte) = explode('-', $range);
 
-        // Calculate and return range index and range size
+        // Calculate and return range home and range size
         return [
             intval($firstByte / $partSize) + 1,
             $lastByte - $firstByte + 1,

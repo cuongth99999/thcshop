@@ -1,7 +1,7 @@
 <?php
 
 function get_page_intro() {
-    $page_intro = db_fetch_row("SELECT * FROM `tbl_pages` WHERE page_title = 'Giới thiệu'");
+    $page_intro = db_fetch_row("SELECT * FROM `tbl_pages` WHERE page_title = 'Liên hệ'");
     return$page_intro;
 }
 

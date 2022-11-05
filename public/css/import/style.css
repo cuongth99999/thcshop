@@ -1,0 +1,17 @@
+.text-center {
+    text-align: center;
+}
+
+.font-weight-bold {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.text-danger {
+    color: #dc3545
+}
+
+.text-info-fil {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}

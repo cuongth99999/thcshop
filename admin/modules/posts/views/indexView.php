@@ -13,7 +13,7 @@ if (isset($_GET['btn-search'])) {
         } else {
             $operator = 'WHERE';
         }
-        $filter .= " $operator page_title LIKE '%$keyword%' OR page_desc LIKE '%$keyword%'";
+        $filter .= " $operator post_title LIKE '%$keyword%' OR post_title LIKE '%$keyword%'";
     }
 }
 
@@ -33,16 +33,16 @@ if (!empty($_GET['status'])) {
         $operator = 'WHERE';
     }
 
-    $filter.= "WHERE page_status='{$status}'";
+    $filter.= "WHERE post_status='{$status}'";
 }
 
-$num_page_solved = db_num_rows("SELECT * FROM `tbl_pages` WHERE page_status='Đã duyệt'");
-$num_page_pending = db_num_rows("SELECT * FROM `tbl_pages` WHERE page_status='Chờ duyệt'");
+$num_posts_solved = db_num_rows("SELECT * FROM `tbl_posts` WHERE post_status='Đã duyệt'");
+$num_posts_pending = db_num_rows("SELECT * FROM `tbl_posts` WHERE post_status='Chờ duyệt'");
 
-$num_page = db_num_rows("SELECT * FROM `tbl_pages`");
+$num_page = db_num_rows("SELECT * FROM `tbl_posts`");
 
 // Số lượng bản ghi trên trang
-$num_rows = db_num_rows("SELECT * FROM `tbl_pages`");
+$num_rows = db_num_rows("SELECT * FROM `tbl_posts`");
 
 $num_per_page = 5;
 $total_row = $num_rows;
@@ -53,7 +53,7 @@ $page = isset($_GET['page'])?(int)$_GET['page']:1;
 $start = ($page - 1)*$num_per_page;
 
 // Hiển thị danh sách theo trang
-$list_pages = get_pages($start, $num_per_page, $filter);
+$list_posts = get_posts($start, $num_per_page, $filter);
 ?>
     <div id="main-content-wp" class="list-post-page">
         <div class="wrap clearfix">
@@ -63,35 +63,35 @@ $list_pages = get_pages($start, $num_per_page, $filter);
             <div id="content" class="fl-right">
                 <div class="section" id="title-page">
                     <div class="clearfix">
-                        <h3 id="index" class="fl-left">Danh sách trang</h3>
-                        <a href="?mod=pages&action=add" title="" id="add-new" class="fl-left">Thêm mới</a>
+                        <h3 id="index" class="fl-left">Danh sách bài viết</h3>
+                        <a href="?mod=posts&action=add" title="" id="add-new" class="fl-left">Thêm mới</a>
                     </div>
                 </div>
                 <div class="section" id="detail-page">
                     <div class="section-detail">
                         <div class="filter-wp clearfix">
                             <ul class="post-status fl-left">
-                                <li class="all"><a href="?mod=pages">Tất cả <span class="count">(<?php echo $total_row; ?>)</span></a> |</li>
-                                <li class="publish"><a href="?mod=pages&status=1">Đã duyệt <span class="count">(<?php echo $num_page_solved; ?>)</span></a> |</li>
-                                <li class="pending"><a href="?mod=pages&status=2">Chờ duyệt <span class="count">(<?php echo $num_page_pending; ?>)</span> |</a></li>
+                                <li class="all"><a href="?mod=posts">Tất cả <span class="count">(<?php echo $total_row; ?>)</span></a> |</li>
+                                <li class="publish"><a href="?mod=posts&status=1">Đã duyệt <span class="count">(<?php echo $num_posts_solved; ?>)</span></a> |</li>
+                                <li class="pending"><a href="?mod=posts&status=2">Chờ duyệt <span class="count">(<?php echo $num_posts_pending; ?>)</span> |</a></li>
                             </ul>
                             <form method="GET" class="form-s fl-right">
-                                <input type="hidden" name="mod" value="pages">
+                                <input type="hidden" name="mod" value="posts">
                                 <input type="text" name="keyword" id="">
                                 <input type="submit" name="btn-search" id="" value="Tìm kiếm">
                             </form>
                         </div>
                         <?php
-                        if (!empty($list_pages)):
+                        if (!empty($list_posts)):
                         ?>
                         <div class="table-responsive">
                             <table class="table list-table-wp">
                                 <thead>
                                 <tr>
                                     <td><span class="thead-text">STT</span></td>
-                                    <td><span class="thead-text">ID</span></td>
                                     <td width="20%"><span class="thead-text">Tiêu đề</span></td>
-                                    <td><span class="thead-text">Mô tả</span></td>
+                                    <td width="10%"><span class="thead-text">Nội dung</span></td>
+                                    <td><span class="thead-text">Danh mục</span></td>
                                     <td><span class="thead-text">Trạng thái</span></td>
                                     <td><span class="thead-text">Người tạo</span></td>
                                     <td><span class="thead-text">Thời gian tạo</span></td>
@@ -100,19 +100,18 @@ $list_pages = get_pages($start, $num_per_page, $filter);
                                 <tbody>
                                 <?php
                                 $stt = $start;
-                                foreach ($list_pages as $item):
+                                foreach ($list_posts as $item):
                                     $stt++;
                                 ?>
                                 <tr>
                                     <td><span class="tbody-text"><?php echo $stt; ?></h3></span>
-                                    <td><span class="tbody-text"><?php echo $item['page_id']; ?></h3></span>
                                     <td class="clearfix">
                                         <div class="tb-title fl-left">
-                                            <a href="" title=""><?php echo $item['page_title']; ?></a>
+                                            <a href="" title=""><?php echo $item['post_title']; ?></a>
                                         </div>
                                         <ul class="list-operation fl-right">
-                                            <li><a href="?mod=pages&action=edit&id=<?php echo $item['page_id']; ?>" title="Sửa" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a></li>
-                                            <li><a href="?mod=pages&action=delete&id=<?php echo $item['page_id']; ?>" title="Xóa" class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
+                                            <li><a href="?mod=posts&action=edit&id=<?php echo $item['post_id']; ?>" title="Sửa" class="edit"><i class="fa fa-pencil" aria-hidden="true"></i></a></li>
+                                            <li><a href="?mod=posts&action=delete&id=<?php echo $item['post_id']; ?>" title="Xóa" class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
                                         </ul>
                                     </td>
                                     <td width="40%"><span class="tbody-text" style="display: -webkit-box;
@@ -122,8 +121,9 @@ $list_pages = get_pages($start, $num_per_page, $filter);
                             text-overflow: ellipsis;
                             white-space: normal;
                             -webkit-line-clamp: 2;
-                            line-height: 1.6rem; "><?php echo $item['page_desc']; ?></span></td>
-                                    <td><span class="tbody-text"><?php echo $item['page_status']; ?></span></td>
+                            line-height: 1.6rem; "><?php echo $item['post_desc']; ?></span></td>
+                                    <td><span class="tbody-text"><?php echo $item['post_cat_name']; ?></span></td>
+                                    <td><span class="tbody-text"><?php echo $item['post_status']; ?></span></td>
                                     <td><span class="tbody-text"><?php echo $item['fullname']; ?></span></td>
                                     <td><span class="tbody-text"><?php echo $item['created_date']; ?></span></td>
                                 </tr>
@@ -137,12 +137,12 @@ $list_pages = get_pages($start, $num_per_page, $filter);
                         <?php
                         else:
                             ?>
-                            <p style="text-align: center; font-size: 18px">Không có trang</p>
+                            <p style="text-align: center; font-size: 18px">Không có bài viết</p>
                         <?php endif; ?>
                     </div>
                 </div>
                 <?php
-                echo get_pagging($num_page, $page, "?mod=pages");
+                echo get_pagging($num_page, $page, "?mod=posts");
                 ?>
             </div>
         </div>

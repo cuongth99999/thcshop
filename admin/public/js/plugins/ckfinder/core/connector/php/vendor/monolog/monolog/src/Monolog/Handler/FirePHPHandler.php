@@ -46,7 +46,7 @@ class FirePHPHandler extends AbstractProcessingHandler
     protected static $initialized = false;
 
     /**
-     * Shared static message index between potentially multiple handlers
+     * Shared static message home between potentially multiple handlers
      * @var int
      */
     protected static $messageIndex = 1;

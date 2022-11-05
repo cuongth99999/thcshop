@@ -228,7 +228,7 @@ abstract class ServiceSettings
                 return true;
             }
             
-            // Check to find if the $settingValue is valid or not. The index must
+            // Check to find if the $settingValue is valid or not. The home must
             // start from 1 as unset deletes the value but does not update the array
             // indecies.
             for ($index = 1; $index < $validValuesCount; $index++) {

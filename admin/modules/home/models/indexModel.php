@@ -10,61 +10,18 @@ function get_user_login_by_username($username) {
     return $user;
 }
 
-function add_page ($data) {
-    return db_insert('tbl_pages', $data);
-}
-
-function get_list_pages () {
-    $result = db_fetch_array("SELECT `tbl_pages`.*, `tbl_users`.fullname FROM `tbl_pages` INNER JOIN `tbl_users` ON
-                        `tbl_pages`.page_user_id = `tbl_users`.user_id");
+function get_list_orders() {
+    $result = db_fetch_array("SELECT `tbl_orders`.*, `tbl_customers`.*, `tbl_detail_orders`.* FROM `tbl_orders` INNER JOIN `tbl_customers` ON
+                        `tbl_orders`.customer_id = `tbl_customers`.customer_id INNER JOIN  `tbl_detail_orders` ON `tbl_orders`.order_id = `tbl_detail_orders`.order_id
+                        GROUP BY `tbl_orders`.order_code ASC");
     return $result;
 }
 
-function get_page_by_id ($id) {
-    $item = db_fetch_row("SELECT * FROM `tbl_pages` WHERE `page_id` = {$id}");
-    return $item;
+function get_turnover() {
+    $result = db_fetch_row("SELECT SUM(`tbl_detail_orders`.num_order * `tbl_products`.price) AS `sum_turnover` FROM `tbl_detail_orders` 
+                                 INNER JOIN `tbl_products` ON `tbl_detail_orders`.product_id = `tbl_products`.id
+                                 INNER JOIN  `tbl_orders` ON `tbl_detail_orders`.order_id = `tbl_orders`.order_id                                                 
+                                 WHERE `tbl_orders`.status = 'Thành công'");
+    return $result;
 }
 
-function get_pages($start = 1, $num_per_page = 5, $filter = "") {
-
-    $list_pages = db_fetch_array("SELECT `tbl_pages`.*, `tbl_users`.fullname FROM `tbl_pages` INNER JOIN `tbl_users` ON
-                        `tbl_pages`.page_user_id = `tbl_users`.user_id {$filter} LIMIT {$start}, {$num_per_page}");
-
-    return $list_pages;
-}
-
-function update_page ($page_id, $data) {
-    db_update('tbl_pages', $data, "`page_id` = '{$page_id}'");
-}
-
-function delete_page_by_id($page_id) {
-    db_delete('tbl_pages', "`page_id` = '{$page_id}'");
-}
-
-function get_pagging($num_page, $page, $base_url = "") {
-    $str_pagging = "<div class=\"section\" id=\"paging-wp\">
-                <div class=\"section-detail clearfix\">
-                    <ul id=\"list-paging\" class=\"fl-right\">";
-
-    if ($page > 1) {
-        $page_prev = $page - 1;
-        $str_pagging .= "<li><a href=\"{$base_url}&page={$page_prev}\"><</a></li>";
-    }
-    for ($i = 1; $i <= $num_page; $i++) {
-        $active = "";
-        if ($i == $page) {
-            $active = "class = 'active'";
-        }
-        $str_pagging .= "<li {$active}><a href=\"{$base_url}&page={$i}\">$i</a></li>";
-    }
-    if ($page < $num_page) {
-        $page_next = $page + 1;
-        $str_pagging .= "<li><a href=\"{$base_url}&page={$page_next}\">></a></li>";
-    }
-
-    $str_pagging .= "</ul>
-                </div>
-            </div>";
-
-    return $str_pagging;
-}

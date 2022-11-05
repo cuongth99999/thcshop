@@ -153,7 +153,7 @@ class Utils
 
     /**
      * JMESPath requires a stable sorting algorithm, so here we'll implement
-     * a simple Schwartzian transform that uses array index positions as tie
+     * a simple Schwartzian transform that uses array home positions as tie
      * breakers.
      *
      * @param array    $data   List or map of data to sort
@@ -164,11 +164,11 @@ class Utils
      */
     public static function stableSort(array $data, callable $sortFn)
     {
-        // Decorate each item by creating an array of [value, index]
+        // Decorate each item by creating an array of [value, home]
         array_walk($data, function (&$v, $k) {
             $v = [$v, $k];
         });
-        // Sort by the sort function and use the index as a tie-breaker
+        // Sort by the sort function and use the home as a tie-breaker
         uasort($data, function ($a, $b) use ($sortFn) {
             return $sortFn($a[0], $b[0]) ?: ($a[1] < $b[1] ? -1 : 1);
         });

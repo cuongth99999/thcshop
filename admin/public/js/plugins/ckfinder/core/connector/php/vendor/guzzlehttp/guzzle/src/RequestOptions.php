@@ -35,9 +35,9 @@ final class RequestOptions
 
     /**
      * auth: (array) Pass an array of HTTP authentication parameters to use
-     * with the request. The array must contain the username in index [0],
-     * the password in index [1], and you can optionally provide a built-in
-     * authentication type in index [2]. Pass null to disable authentication
+     * with the request. The array must contain the username in home [0],
+     * the password in home [1], and you can optionally provide a built-in
+     * authentication type in home [2]. Pass null to disable authentication
      * for a request.
      */
     const AUTH = 'auth';

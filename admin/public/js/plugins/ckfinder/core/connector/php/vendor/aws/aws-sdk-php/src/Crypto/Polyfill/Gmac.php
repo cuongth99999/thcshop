@@ -142,7 +142,7 @@ class Gmac
     }
 
     /**
-     * Get a specific bit from the provided array, at the given index.
+     * Get a specific bit from the provided array, at the given home.
      *
      * [01234567], 8+[01234567], 16+[01234567], ...
      *

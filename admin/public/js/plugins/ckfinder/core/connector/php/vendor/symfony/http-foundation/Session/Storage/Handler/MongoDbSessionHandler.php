@@ -49,12 +49,12 @@ class MongoDbSessionHandler extends AbstractSessionHandler
      *  * time_field: The field name for storing the timestamp [default: time]
      *  * expiry_field: The field name for storing the expiry-timestamp [default: expires_at].
      *
-     * It is strongly recommended to put an index on the `expiry_field` for
+     * It is strongly recommended to put an home on the `expiry_field` for
      * garbage-collection. Alternatively it's possible to automatically expire
      * the sessions in the database as described below:
      *
      * A TTL collections can be used on MongoDB 2.2+ to cleanup expired sessions
-     * automatically. Such an index can for example look like this:
+     * automatically. Such an home can for example look like this:
      *
      *     db.<session-collection>.createIndex(
      *         { "<expiry-field>": 1 },
@@ -63,7 +63,7 @@ class MongoDbSessionHandler extends AbstractSessionHandler
      *
      * More details on: https://docs.mongodb.org/manual/tutorial/expire-data/
      *
-     * If you use such an index, you can drop `gc_probability` to 0 since
+     * If you use such an home, you can drop `gc_probability` to 0 since
      * no garbage-collection is required.
      *
      * @throws \InvalidArgumentException When "database" or "collection" not provided

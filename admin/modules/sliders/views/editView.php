@@ -15,39 +15,33 @@ get_header();
             <div id="content" class="fl-right">
                 <div class="section" id="title-page">
                     <div class="clearfix">
-                        <h3 id="index" class="fl-left">Cập nhật trang</h3>
+                        <h3 id="index" class="fl-left">Cập nhật slider</h3>
                     </div>
                 </div>
                 <div class="section" id="detail-page">
                     <div class="section-detail">
                         <form method="POST" enctype="multipart/form-data">
-                            <label for="title">Tiêu đề</label>
-                            <input type="text" name="page_title" id="title" value="<?php echo $info_page['page_title']; ?>">
-                            <?php echo form_error('page_title') ?>
+                            <label for="title">Tên slider</label>
+                            <input type="text" name="slider_name" id="title" value="<?php echo $info_slider['slider_name']; ?>">
+                            <?php echo form_error('slider_name') ?>
 
-                            <label for="title">Slug ( Friendly_url )</label>
-                            <input type="text" name="slug" id="slug" value="<?php echo $info_page['page_slug']; ?>">
-                            <?php echo form_error('slug') ?>
-
-                            <label for="desc">Mô tả</label>
-                            <textarea name="page_desc" id="desc" class="ckeditor"><?php echo $info_page['page_desc']; ?></textarea>
-                            <?php echo form_error('page_desc') ?>
+                            <label style="margin-top: 40px" for="title">Thumbnail</label>
+                            <div style="display: flex; align-items: center">
+                                <input style="margin-bottom: 53px" type="text" name="image" id="url" value="<?php echo $info_slider['image']; ?>">
+                                <button style="margin-left: 20px; padding: 6px 20px" type="button" onclick="openPopup()">Chọn ảnh</button>
+                            </div>
+                            <?php echo form_error('image') ?>
 
                             <label for="status">Trạng thái</label>
-                            <select name="page_status" id="status" style="width: 250px; height: 40px">
+                            <select name="status" id="status" style="width: 250px; height: 40px">
                                 <option value="0">Chọn trạng thái</option>
-                                <option value="Đã duyệt" <?php echo $info_page['page_status']=='Đã duyệt'?'selected':false; ?>>Duyệt</option>
-                                <option value="Chờ duyệt" <?php echo $info_page['page_status']=='Chờ duyệt'?'selected':false; ?>>Chờ xét duyệt</option>
+                                <option value="Đã duyệt" <?php echo $info_slider['status']=='Đã duyệt'?'selected':false; ?>>Duyệt</option>
+                                <option value="Chờ duyệt" <?php echo $info_slider['status']=='Chờ duyệt'?'selected':false; ?>>Chờ xét duyệt</option>
                             </select>
                             <?php echo form_error('page_status') ?>
 
-                            <label>Hình ảnh</label>
-                            <div id="uploadFile">
-                                <input type="file" name="file" id="upload-thumb" value="<?php echo $info_page['image']; ?>">
-                            </div>
-                            <?php echo form_error('file') ?>
 
-                            <button type="submit" name="btn-edit-page" id="btn-submit">Cập nhật</button>
+                            <button type="submit" name="btn-edit" id="btn-submit">Cập nhật</button>
                         </form>
                     </div>
                 </div>

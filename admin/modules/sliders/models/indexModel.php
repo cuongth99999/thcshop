@@ -10,35 +10,35 @@ function get_user_login_by_username($username) {
     return $user;
 }
 
-function add_page ($data) {
-    return db_insert('tbl_pages', $data);
+function add_slider($data) {
+    return db_insert('tbl_sliders', $data);
 }
 
-function get_list_pages () {
-    $result = db_fetch_array("SELECT `tbl_pages`.*, `tbl_users`.fullname FROM `tbl_pages` INNER JOIN `tbl_users` ON
-                        `tbl_pages`.page_user_id = `tbl_users`.user_id");
+function get_list_sliders () {
+    $result = db_fetch_array("SELECT `tbl_sliders`.*, `tbl_users`.fullname FROM `tbl_sliders` INNER JOIN `tbl_users` ON
+                        `tbl_sliders`.user_id = `tbl_users`.user_id");
     return $result;
 }
 
-function get_page_by_id ($id) {
-    $item = db_fetch_row("SELECT * FROM `tbl_pages` WHERE `page_id` = {$id}");
+function get_slider_by_id ($id) {
+    $item = db_fetch_row("SELECT * FROM `tbl_sliders` WHERE `slider_id` = {$id}");
     return $item;
 }
 
-function get_pages($start = 1, $num_per_page = 5, $filter = "") {
+function get_sliders($start = 1, $num_per_page = 5, $filter = "") {
 
-    $list_pages = db_fetch_array("SELECT `tbl_pages`.*, `tbl_users`.fullname FROM `tbl_pages` INNER JOIN `tbl_users` ON
-                        `tbl_pages`.page_user_id = `tbl_users`.user_id {$filter} LIMIT {$start}, {$num_per_page}");
+    $list_pages = db_fetch_array("SELECT `tbl_sliders`.*, `tbl_users`.fullname FROM `tbl_sliders` INNER JOIN `tbl_users` ON
+                        `tbl_sliders`.user_id = `tbl_users`.user_id {$filter} LIMIT {$start}, {$num_per_page}");
 
     return $list_pages;
 }
 
-function update_page ($page_id, $data) {
-    db_update('tbl_pages', $data, "`page_id` = '{$page_id}'");
+function update_slider ($id, $data) {
+    db_update('tbl_sliders', $data, "`slider_id` = '{$id}'");
 }
 
-function delete_page_by_id($page_id) {
-    db_delete('tbl_pages', "`page_id` = '{$page_id}'");
+function delete_slider_by_id($id) {
+    db_delete('tbl_sliders', "`slider_id` = '{$id}'");
 }
 
 function get_pagging($num_page, $page, $base_url = "") {
